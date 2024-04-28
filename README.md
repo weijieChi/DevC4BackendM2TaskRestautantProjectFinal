@@ -21,6 +21,15 @@
     其專案所在路徑不可以有空白字元 ex: `C:\alpha camp\my folder` 跟含有非英文非 ASCII 字元 ex: `C:\Users\吳柏毅\dev`
 
 **步驟 Step**
+0. 在 MySQL 建立資料庫
+以下為建立資料庫的建議 SQL 語法
+```sql
+-- 建立資料庫
+CREATE DATABASE `restaurant`
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+```
+
 1. 先用 git clone 從 github repositories 複製檔案，使用 ssh 協定。
 ```sh
 git clone git@github.com:weijieChi/DevC4BackendM2TaskRestautantProjectRefactor.git
@@ -79,7 +88,7 @@ npm run start
 
 ### windows
 windows 開發環境使用者強烈建議使用 powershell ，因為 powershell 是現在微軟推薦並且有在維護的命令列環境工具，且 windows visual studio code 預設命令列工具就是 powershell
-**Powershell** 設定方式
+**Powershell 設定方式**
 
 ```ps1
 # 顯示環境變數方式，前面的 env 可以是任意大小寫
