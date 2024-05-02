@@ -1,27 +1,29 @@
-
-//express
+// express
 const express = require('express');
+
 const app = express();
 const port = 3000;
-
-// router
-const router = require('./routes');
 
 // express-session
 const session = require('express-session');
 
 const flash = require('connect-flash');
 
-
-
 // express-handlebars
 const { engine } = require('express-handlebars');
+
 app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
-app.set('views', './views')
+app.set('views', './views');
 
 // method-override
 const methodOverrid = require('method-override');
+
+// dotenv
+const dotenv = require('dotenv');
+
+// router
+const router = require('./routes');
 
 // middleware
 // middlewares message-handler
@@ -30,7 +32,7 @@ const messageHandler = require('./middlewares/message-handler');
 const errorHandler = require('./middlewares/error-handler');
 
 if (process.env.NODE_ENV === 'development') {
-  require('dotenv').config()
+  dotenv.config();
 }
 
 // static file
@@ -46,7 +48,7 @@ app.use(express.json());
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
 }));
 
 // connect-flash
