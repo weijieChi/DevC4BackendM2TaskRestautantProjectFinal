@@ -2,6 +2,7 @@
 const data = require('../public/jsons/restaurant.json');
 
 const restaurants = data.results.map((item) => ({
+  id: item.id,
   name: item.name,
   category: item.category,
   image: item.image,
@@ -21,7 +22,7 @@ module.exports = {
      * Add seed commands here.
      *
      * Example:
-     * await queryInterface.bulkInsert('People', [{d 
+     * await queryInterface.bulkInsert('People', [{d
      *   name: 'John Doe',
      *   isBetaMember: false
      * }], {});

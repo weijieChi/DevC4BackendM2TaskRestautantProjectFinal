@@ -65,6 +65,6 @@ app.use(errorHandler);
 
 // listen
 app.listen(port, () => {
-  console.log('\x1b[33m%s\x1b[0m', new Date().toLocaleTimeString());
+  console.log('\x1b[33m%s\x1b[0m', new Date().toLocaleString());
   console.log(`express server on http://localhost:${port}`);
 });

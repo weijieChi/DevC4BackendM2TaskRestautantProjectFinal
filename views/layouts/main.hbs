@@ -18,8 +18,16 @@
   <!-- partial:index.partial.html -->
   <header>
     <!-- navigation -->
-    <nav class="navbar navbar-light bg-light">
-      <div class="container">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+      <div class="container-fluid">
+        <span class="navbar-brand">
+          <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
+            width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
+        </span>
+        <a href="/">index</a>
+        {{> user-dashboard}}
+      </div>
+      <!-- div class="container-fluid">
         <a class="navbar-brand" href="/restaurants">
           <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
             width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
@@ -28,7 +36,7 @@
         <div>
           <a href="/restaurants/new" class="btn btn-primary btn-lg">新增餐廳</a>
         </div>
-      </div>
+        </div -->
     </nav>
 
     <div class="banner"></div>
