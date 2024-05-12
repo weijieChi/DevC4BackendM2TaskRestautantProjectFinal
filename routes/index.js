@@ -1,11 +1,16 @@
 const express = require('express');
 
 const router = express.Router();
-const restaurants = require('./restaurants');
 const loginLogout = require('./login-logout');
+const restaurants = require('./restaurants');
+const users = require('./users');
 
 router.use('/', loginLogout);
 router.use('/restaurants', restaurants);
+router.use('/users', users);
+
+// catch 404 and forward to error handler
+// app.use(function (req, res, next) {...})
 
 // router.get('/', (req, res) => {
 //   res.redirect('/restaurants');

@@ -21,7 +21,7 @@
     其專案所在路徑不可以有空白字元 ex: `C:\alpha camp\my folder` 跟含有非英文非 ASCII 字元 ex: `C:\Users\吳柏毅\dev`
 
 **步驟 Step**
-0. 在 MySQL 建立資料庫
+1. 在 MySQL 建立資料庫
 以下為建立資料庫的建議 SQL 語法
 ```sql
 -- 建立資料庫
@@ -30,27 +30,27 @@ CHARACTER SET utf8mb4
 COLLATE utf8mb4_unicode_ci;
 ```
 
-1. 先用 git clone 從 github repositories 複製檔案，使用 ssh 協定。
+2. 先用 git clone 從 github repositories 複製檔案，使用 ssh 協定。
 ```sh
 git clone git@github.com:weijieChi/DevC4BackendM2TaskRestautantProjectRefactor.git
 ```
-2. 進入專案所在目錄
+3. 進入專案所在目錄
 ```sh
 cd ./DevC4BackendM2TaskRestautantProjectRefactor
 ```
-3. 使用 npm 安裝執行所需的套件。
+4. 使用 npm 安裝執行所需的套件。
 ```sh
 npm install
 ```
-4. 使用 seuqelize-cli 建立 database table
+5. 使用 seuqelize-cli 建立 database table
 ```sh
 npx sequelize db:migrate
 ```
-5. 使用 seuqelize-cli 建立初始資料
+6. 使用 seuqelize-cli 建立初始資料
 ```sh
 npx sequelize db:seed:all
 ```
-6. 將環境變數 NODE_ENV 設為 `development` 否則程式執行將會出現錯誤
+7. 將環境變數 NODE_ENV 設為 `development` 否則程式執行將會出現錯誤
 
 **windws**
 建議使用 powershell 來設定
@@ -66,11 +66,6 @@ $env:NODE_ENV
 export NODE_ENV=development
 # 查看環境變數是否設定正確
 printenv NODE_ENV
-```
-
-7. 因為有透過 dotnev 設定 session 加密字串環境變數，所以需要再專案跟目錄建立 `/.env` 檔案來設定加密字串，檔案內容如下
-```
-SESSION_SECRET=toUesSecret
 ```
 
 8. 透過 npm 執行伺服器程式。

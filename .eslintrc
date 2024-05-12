@@ -6,6 +6,8 @@
   "extends": "airbnb-base",
   "rules": {
     "no-console": "off",
-    "no-alert": "off"
+    "no-alert": "off",
+    "import/no-extraneous-dependencies": "off",
+    "consistent-return": "off"
   }
 }

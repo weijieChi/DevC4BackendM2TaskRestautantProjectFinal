@@ -12,6 +12,10 @@ const flash = require('connect-flash');
 // express-handlebars
 const { engine } = require('express-handlebars');
 
+// passport
+// eslint-disable-next-line import/no-extraneous-dependencies
+const passport = require('passport');
+
 app.engine('.hbs', engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 app.set('views', './views');
@@ -35,11 +39,12 @@ if (process.env.NODE_ENV === 'development') {
   dotenv.config();
 }
 
-// static file
+// express static file
 app.use(express.static('public'));
 
 // method-override
 app.use(methodOverrid('_method'));
+
 // bodyParser & x-www-form-urlencoded to json
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -53,6 +58,12 @@ app.use(session({
 
 // connect-flash
 app.use(flash());
+
+// passport initialize
+// 確認 passport.user 是否已存在，若沒有則初始化一個空的。
+app.use(passport.initialize());
+// 用以處理 Session。若有找到 passport.user，則判定其通過驗證，並呼叫 deserializeUser()。
+app.use(passport.session());
 
 // middlewares message-handler
 app.use(messageHandler);
