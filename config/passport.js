@@ -21,16 +21,12 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (username, password, 
     raw: true,
   })
     .then((user) => { // 檢查是否存在該帳號
-      console.log(user);
-      console.log(password, user.password);
       if (!user) {
         return done(null, false, { message: 'email email 或是密碼錯誤' });
       }
       // 檢查密碼是否正確
       return bcrypt.compare(password, user.password)
         .then((isMatch) => {
-          console.log(password, user.password);
-          console.log(isMatch);
           if (!isMatch) {
             return done(null, false, { message: 'email 或是密碼錯誤' });
           }
@@ -38,8 +34,9 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (username, password, 
           return done(null, user);
         })
         .catch((error) => {
-          console.log('bcryptjs catch');
-          console.log(error);
+          const err = error;
+          err.message = 'bcryptjs compare error.';
+          return done(err);
         });
     })
     .catch((error) => {
