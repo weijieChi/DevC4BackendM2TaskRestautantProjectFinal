@@ -1,5 +1,6 @@
 const {
   Model,
+  INTEGER,
 } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -12,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
       // define association here
+      Restaurant.belongsTo(models.User);
     }
   }
   Restaurant.init({
@@ -22,6 +24,10 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     google_map: DataTypes.STRING,
     description: DataTypes.STRING,
+    userId: {
+      DataTypes: INTEGER,
+      allowNull: false,
+    },
   }, {
     sequelize,
     modelName: 'Restaurant',
