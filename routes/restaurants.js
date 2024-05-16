@@ -84,8 +84,10 @@ router.post('/', (req, res, next) => {
 });
 
 router.get('/', (req, res, next) => {
+  const userId = req.user.id;
   Restaurant.findAll({
     attributes: ['id', 'name', 'category', 'image'],
+    where: { userId },
     raw: true,
   })
     .then((restaurants) => {

@@ -1,6 +1,5 @@
 const {
   Model,
-  INTEGER,
 } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -25,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     google_map: DataTypes.STRING,
     description: DataTypes.STRING,
     userId: {
-      DataTypes: INTEGER,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
   }, {

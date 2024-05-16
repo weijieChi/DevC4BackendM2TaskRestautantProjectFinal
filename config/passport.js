@@ -58,7 +58,7 @@ passport.serializeUser((user, done) => {
 // passport deserialize 會將這個資料放到 req.user 這個屬性
 passport.deserializeUser((user, done) => {
   console.log('\x1B[32m%s\x1b[0m', 'deserializeUser message');
-  done(null, { id: user.id });
+  done(null, { id: user.id, name: user.name });
 });
 
 module.exports = passport;

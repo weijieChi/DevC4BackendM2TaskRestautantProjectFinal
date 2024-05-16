@@ -39,7 +39,6 @@ for (let i = 0; i < 6; i += 1) { // ESlint: no-plusplus
     );
   }
 }
-console.log(restaurants);
 
 const users = [
   {
@@ -55,20 +54,10 @@ const users = [
     password: '12345678',
   }, // 擁有 #4, #5, #6 號餐廳
 ];
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   // eslint-disable-next-line no-unused-vars
   async up(queryInterface, Sequelize) {
-    /**
-     * Add seed commands here.
-     *
-     * Example:
-     * await queryInterface.bulkInsert('People', [{d
-     *   name: 'John Doe',
-     *   isBetaMember: false
-     * }], {});
-    */
     let transaction;
     try {
       transaction = await queryInterface.sequelize.transaction();
@@ -95,17 +84,10 @@ module.exports = {
       console.log(error);
       if (transaction) await transaction.rollback();
     }
-    // await queryInterface.bulkInsert('Restaurants', restaurants, {});
   },
 
   // eslint-disable-next-line no-unused-vars
   async down(queryInterface, Sequelize) {
-    /**
-     * Add commands to revert seed here.
-     *
-     * Example:
-     * await queryInterface.bulkDelete('People', null, {});
-     */
     let transaction;
     try {
       transaction = queryInterface.transaction();
