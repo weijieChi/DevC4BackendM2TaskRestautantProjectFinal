@@ -4,6 +4,6 @@ module.exports = (req, res, next) => {
     res.locals.user_name = req.user.name;
     return next();
   }
-  req.flash('error', '尚未登入');
+  req.flash('error', '帳號尚未登入！請先登入帳號，或是註冊帳號後登入');
   return res.redirect('/login');
 };

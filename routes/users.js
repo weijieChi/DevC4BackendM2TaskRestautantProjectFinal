@@ -4,8 +4,9 @@ const express = require('express');
 const router = express.Router();
 
 // bcrypt
-// eslint-disable-next-line import/no-extraneous-dependencies
 const bcrypt = require('bcryptjs');
+
+const authHandler = require('../middlewares/auth-handler');
 
 // Sequelize Database
 const db = require('../models');
@@ -62,6 +63,10 @@ router.post('/', (req, res, next) => {
     });
   req.flash('success', '註冊成功');
   return res.redirect('/login');
+});
+
+router.delete('/', authHandler, (req, res) => {
+  res.redirect('/');
 });
 
 module.exports = router;

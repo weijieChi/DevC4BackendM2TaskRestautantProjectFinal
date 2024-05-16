@@ -27,4 +27,23 @@ router.post('/login', passport.authenticate('local', {
   failureFlash: true,
 }));
 
+router.post('/logout', (req, res, next) => {
+  req.logout((error) => {
+    if (error) {
+      return next(error);
+    }
+
+    return res.redirect('/login');
+  });
+});
+
+// facebook OAuth2
+// router.get('/login/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+
+// router.get('/oauth2/redirect/facebook', passport.authenticate('facebook', {
+//   successRedirect: '/todos',
+//   failureRedirect: '/login',
+//   failureFlash: true,
+// }));
+
 module.exports = router;

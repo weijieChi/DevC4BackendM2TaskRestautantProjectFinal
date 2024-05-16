@@ -1,6 +1,10 @@
 {{#if success_msg}}
-<div>{{success_msg}}</div>
+<div class="alert alert-success" role="alert">
+  {{success_msg}}
+</div>
 {{/if}}
 {{#if error_msg}}
-<div>{{error_msg}}</div>
+<div class="alert alert-warning" role="alert">
+  {{error_msg}}
+</div>
 {{/if}}
