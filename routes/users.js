@@ -68,38 +68,38 @@ router.post('/', (req, res, next) => {
 //   failureFlash: true,
 // }));
 
-router.delete('/', (req, res, next) => {
-  const { email } = req.user;
-  User.findOne({
-    attributes: ['id', 'name', 'email'],
-    where: { email },
-  })
-    .then((user) => {
-      if (!user) {
-        req.flash('error', '找不到該帳戶！');
-        return res.redirect('/login');
-      }
-      User.destroy({ where: { id: user.id } })
-        .then(() => {
-          req.logout((error) => {
-            if (error) {
-              return next(error);
-            }
-          });
-          req.flash('success', '帳號刪除成功！'); // 不知道被什麼蓋掉了，無法顯示
-          return res.redirect('/login');
-        })
-        .catch((error) => {
-          const err = error; // ESlint: no-param-reassign
-          err.errorMessage = '帳號刪除失敗！';
-          next(err);
-        });
-    })
-    .catch((error) => {
-      const err = error; // ESlint: no-param-reassign
-      err.errorMessage = '帳號刪除失敗！';
-      next(err);
-    });
-});
+// router.delete('/', (req, res, next) => {
+//   const { email } = req.user;
+//   User.findOne({
+//     attributes: ['id', 'name', 'email'],
+//     where: { email },
+//   })
+//     .then((user) => {
+//       if (!user) {
+//         req.flash('error', '找不到該帳戶！');
+//         return res.redirect('/login');
+//       }
+//       User.destroy({ where: { id: user.id } })
+//         .then(() => {
+//           req.logout((error) => {
+//             if (error) {
+//               return next(error);
+//             }
+//           });
+//           req.flash('success', '帳號刪除成功！'); // 不知道被什麼蓋掉了，無法顯示
+//           return res.redirect('/login');
+//         })
+//         .catch((error) => {
+//           const err = error; // ESlint: no-param-reassign
+//           err.errorMessage = '帳號刪除失敗！';
+//           next(err);
+//         });
+//     })
+//     .catch((error) => {
+//       const err = error; // ESlint: no-param-reassign
+//       err.errorMessage = '帳號刪除失敗！';
+//       next(err);
+//     });
+// });
 
 module.exports = router;
