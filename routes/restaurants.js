@@ -51,11 +51,11 @@ router.get('/new', (req, res) => {
 });
 
 router.post('/', (req, res, next) => {
-  let data = {};
+  let restaurantData = {};
 
   // 驗證是否為有效 json 資料
   try {
-    data = (req.body); // 包含使用 app.use(express.json())
+    restaurantData = (req.body); // 包含使用 app.use(express.json())
   } catch (error) {
     // res.status(400); // 不知道要怎麼把 http code 設為 400
     error.errorMessage = 'Invalid request data.';
@@ -64,14 +64,18 @@ router.post('/', (req, res, next) => {
   }
 
   // JSON schema 驗證 javascript object 格式
-  const result = jsonValidator.validate(data, restaurantSchena);
+  const result = jsonValidator.validate(restaurantData, restaurantSchena);
   if (!result.valid) {
     const error = { errorMessage: 'The JSON data schema or value is does not match rule.' };
     next(error);
     return; // 防止進入資料庫 insert 程序
   }
 
-  Restaurant.create(data)
+  //
+  const userId = req.user.id;
+  restaurantData.userId = userId;
+
+  Restaurant.create(restaurantData)
     .then(() => {
       req.flash('success', '新增成功');
       return res.redirect('restaurants');

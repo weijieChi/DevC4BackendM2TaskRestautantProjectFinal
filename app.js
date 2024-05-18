@@ -26,9 +26,6 @@ const methodOverrid = require('method-override');
 // dotenv
 const dotenv = require('dotenv');
 
-// router
-const router = require('./routes');
-
 // middleware
 // middlewares message-handler
 const messageHandler = require('./middlewares/message-handler');
@@ -38,6 +35,8 @@ const errorHandler = require('./middlewares/error-handler');
 if (process.env.NODE_ENV === 'development') {
   dotenv.config();
 }
+// router
+const router = require('./routes');
 
 // express static file
 app.use(express.static('public'));

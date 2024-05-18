@@ -6,7 +6,8 @@ const router = express.Router();
 // bcrypt
 const bcrypt = require('bcryptjs');
 
-const authHandler = require('../middlewares/auth-handler');
+// passport
+// const passport = require('../config/passport');
 
 // Sequelize Database
 const db = require('../models');
@@ -14,9 +15,6 @@ const db = require('../models');
 const { User } = db;
 
 router.post('/', (req, res, next) => {
-  // console.log('users/register');
-  // console.log(req.body);
-  // res.redirect('/register');
   const {
     email, name, password, confirmPassword,
   } = req.body;
@@ -34,39 +32,74 @@ router.post('/', (req, res, next) => {
 
   // 檢查 email 是否已經註冊
   User.count({
-    where: email,
+    where: { email },
   })
     .then((rowCount) => {
       if (rowCount > 0) {
         req.flash('error', 'email 已註冊');
         return res.redirect('back');
       }
+      bcrypt.hash(password, 10)
+        .then((hash) => {
+          User.create({
+            email,
+            name,
+            password: hash,
+          })
+            .catch((error) => {
+              const err = error;
+              err.errorMessage = '註冊失敗';
+              next(err);
+            });
+        });
+      req.flash('success', '註冊成功');
+      return res.redirect('/login');
     })
     .catch((error) => {
       const err = error;
       err.errorMessage = '伺服器錯誤';
       next(err);
     });
-
-  bcrypt.hash(password, 10)
-    .then((hash) => {
-      User.create({
-        email,
-        name,
-        password: hash,
-      })
-        .catch((error) => {
-          const err = error;
-          err.errorMessage = '註冊失敗';
-          next(err);
-        });
-    });
-  req.flash('success', '註冊成功');
-  return res.redirect('/login');
 });
 
-router.delete('/', authHandler, (req, res) => {
-  res.redirect('/');
+// router.delete('/login', passport.authenticate('local', {
+//   successRedirect: '/restaurants',
+//   failureRedirect: '/login',
+//   failureFlash: true,
+// }));
+
+router.delete('/', (req, res, next) => {
+  const { email } = req.user;
+  User.findOne({
+    attributes: ['id', 'name', 'email'],
+    where: { email },
+  })
+    .then((user) => {
+      if (!user) {
+        req.flash('error', '找不到該帳戶！');
+        return res.redirect('/login');
+      }
+      User.destroy({ where: { id: user.id } })
+        .then(() => {
+          req.logout((error) => {
+            if (error) {
+              return next(error);
+            }
+          });
+          req.flash('success', '帳號刪除成功！'); // 不知道被什麼蓋掉了，無法顯示
+          return res.redirect('/login');
+        })
+        .catch((error) => {
+          const err = error; // ESlint: no-param-reassign
+          err.errorMessage = '帳號刪除失敗！';
+          next(err);
+        });
+    })
+    .catch((error) => {
+      const err = error; // ESlint: no-param-reassign
+      err.errorMessage = '帳號刪除失敗！';
+      next(err);
+    });
 });
 
 module.exports = router;
