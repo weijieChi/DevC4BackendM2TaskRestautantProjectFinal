@@ -42,7 +42,7 @@ const restaurantSchena = {
 };
 
 // database
-const db = require('../models');
+const db = require('../../models');
 
 const { Restaurant } = db;
 

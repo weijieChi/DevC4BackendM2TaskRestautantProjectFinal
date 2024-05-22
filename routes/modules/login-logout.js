@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 // passport 模組
-const passport = require('../config/passport');
+const passport = require('../../config/passport');
 
 router.get('/', (req, res) => {
   res.redirect('/restaurants');

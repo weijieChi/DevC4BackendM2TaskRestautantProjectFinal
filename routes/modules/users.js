@@ -10,7 +10,7 @@ const bcrypt = require('bcryptjs');
 // const passport = require('../config/passport');
 
 // Sequelize Database
-const db = require('../models');
+const db = require('../../models');
 
 const { User } = db;
 
