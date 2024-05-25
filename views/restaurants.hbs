@@ -6,11 +6,17 @@
       <form action="/restaurants" method="get">
         <h4 class="mb-2">尋找餐廳：</h4>
         <div class="input-group">
-          <input type="text" name="keyword" class="form-control" placeholder="輸入餐廳、分類" aria-label="Restaurant Name..."
-            value="{{keyword}}" aria-describedby="search-button" disabled>
+          <input type="text" name="keyword" id="keyword" class="form-control" placeholder="輸入餐廳、分類"
+            aria-label="Restaurant Name..." value="{{keyword}}" aria-describedby="search-button">
           <div class="input-group-append">
-            <button class="btn btn-major" type="submit" id="search-button" disabled><i
-                class="fas fa-search"></i></button>
+            <button class="btn btn-major" type="submit" id="search-button"><i class="fas fa-search"></i></button>
+            <select class="" name="short">
+              <option value="none" selected>不排序</option>
+              <option value="name_asc">依名稱 A -> Z</option>
+              <option value="name_desc">依名稱 Z -> A</option>
+              <option value="category">依類別</option>
+              <option value="location">依地區</option>
+            </select>
           </div>
         </div>
       </form>
@@ -19,11 +25,6 @@
 </div>
 <div class="container mt-5">
   <div class="row">
-    {{!-- <div class="row">
-      <div class="col-12">
-        <a href="/restaurants/new" class="btn btn-primary btn-lg">新增餐廳</a>
-      </div>
-    </div> --}}
     <div class="col-md-10 col-12 mx-auto">
       <div class="row row-cols-sm-3 restautants-list">
         {{#each restaurants as |restaurant|}}
@@ -51,6 +52,24 @@
           </div>
         </span>
         {{/each}}
+      </div>
+      <div class="row row-cols-sm-12">
+        <nav class="d-flex justify-content-center">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="#" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li>
+              <a class="page-link" href="#" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+          <samp class="align-self-center">共 10 頁</samp>
+        </nav>
       </div>
     </div>
   </div>
