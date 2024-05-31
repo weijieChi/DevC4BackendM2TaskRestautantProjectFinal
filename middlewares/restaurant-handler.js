@@ -183,6 +183,7 @@ restaurantHandler.getEdit = async (req, res, next) => {
       next(error);
       return;
     }
+    req.restaurant = restaurant;
     next();
   } catch (error) {
     next(error);
@@ -191,9 +192,9 @@ restaurantHandler.getEdit = async (req, res, next) => {
 
 restaurantHandler.create = async (req, res, next) => {
   try {
-    const { restaurant } = req.body;
-    const userId = req.user.id;
-    restaurant.userId = userId;
+    const restaurant = req.body;
+    restaurant.userId = req.user.id;
+    console.log('userId:', restaurant.userId);
 
     const result = jsonValidator.validate(restaurant, restaurantSchena);
     if (!result.valid) {
@@ -201,6 +202,7 @@ restaurantHandler.create = async (req, res, next) => {
       next(error);
       return; // 防止進入資料庫 insert 程序
     }
+    console.log(restaurant);
     await Restaurant.create(restaurant);
     req.flash('success', '新增成功');
     return res.redirect('restaurants');

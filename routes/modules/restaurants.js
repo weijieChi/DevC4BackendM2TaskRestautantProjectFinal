@@ -16,7 +16,7 @@ router.get('/new', (req, res) => {
 
 router.post('/', restaurantHandler.create);
 
-router.get('/', restaurantHandler.getAll, async (req, res, next) => {
+router.get('/', restaurantHandler.getAll, (req, res, next) => {
   try {
     const restaurants = req.filterRestaurants;
     const { maxPage } = req; // eslint: prefer-destructuring
@@ -42,7 +42,7 @@ router.get('/', restaurantHandler.getAll, async (req, res, next) => {
   }
 });
 
-router.get('/:id', restaurantHandler.getById, async (req, res, next) => {
+router.get('/:id', restaurantHandler.getById, (req, res, next) => {
   try {
     const { restaurant } = req;
     res.render('detail', restaurant);
@@ -52,27 +52,14 @@ router.get('/:id', restaurantHandler.getById, async (req, res, next) => {
   }
 });
 
-router.get('/:id/edit', (req, res, next) => {
-  const { id } = req.params;
-  Restaurant.findByPk(id, {
-    attributes: ['id', 'name', 'category', 'image', 'location', 'phone', 'google_map', 'description'],
-    raw: true,
-  })
-    .then((restaurant) => {
-      if (restaurant === null) {
-        // res.status(404); // 不知道要怎麼把 http code 設為 404
-        const error = { errorMessage: '查詢不到該筆餐廳資料' };
-        next(error);
-        return;
-      }
-      res.render('edit', { restaurant });
-    })
-    .catch((error) => {
-      const err = error;
-      // res.status(404); // 不知道要怎麼把 http code 設為 404
-      err.errorMessage = '查詢不到該筆餐廳資料';
-      next(err);
-    });
+router.get('/:id/edit', restaurantHandler.getEdit, (req, res, next) => {
+  try {
+    const { restaurant } = req;
+    res.render('edit', restaurant);
+  } catch (error) {
+    const err = error;
+    next(err);
+  }
 });
 
 router.put('/:id', (req, res, next) => {
@@ -86,7 +73,7 @@ router.put('/:id', (req, res, next) => {
     next(error);
     return; // 防止進入資料庫 update 程序
   }
-  // JSON Schema
+  // JSON Schema 暫時先保留
   // 驗勝資料結構
   // const result = jsonValidator.validate(data, restaurantSchena);
   // if (!result.valid) {

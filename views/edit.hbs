@@ -3,19 +3,18 @@
   <div class="row">
     <h1 class="col-md-4 text-center">修改餐廳資料</h1>
   </div>
-  <form action="/restaurants/{{restaurant.id}}?_method=PUT" class="row g-3 needs-validation" id="add-restaurant"
-    method="post" novalidate>
+  <form action="/restaurants/{{id}}?_method=PUT" class="row g-3 needs-validation" id="add-restaurant" method="post"
+    novalidate>
     <div class="col-md-4">
       <label for="name" class="form-label">餐廳名稱：</label>
-      <input type="text" class="form-control" name="name" id="name" value="{{restaurant.name}}" placeholder="請輸入店家名稱"
-        required>
+      <input type="text" class="form-control" name="name" id="name" value="{{name}}" placeholder="請輸入店家名稱" required>
       <div class="invalid-feedback">
         請輸入餐廳名稱
       </div>
     </div>
     <div class="col-md-4">
       <label for="category" class="form-label">餐廳類型：</label>
-      <input class="form-control" list="category-choice" id="category" name="category" value="{{restaurant.category}}"
+      <input class="form-control" list="category-choice" id="category" name="category" value="{{category}}"
         placeholder="請選擇或是輸入餐廳類型" required />
       <datalist id="category-choice">
         <option value="美式">美式</option>
@@ -34,23 +33,22 @@
     </div>
     <div class="col-md-4">
       <label for="image" class="form-label">餐廳圖片連結：</label>
-      <input type="url" class="form-control" name="image" id="image" value="{{restaurant.image}}" placeholder="圖片連結網址"
-        required>
+      <input type="url" class="form-control" name="image" id="image" value="{{image}}" placeholder="圖片連結網址" required>
       <div class="invalid-feedback">
         請輸入正確的圖片連結
       </div>
     </div>
     <div class="col-md-4">
       <label for="location" class="form-label">地址：</label>
-      <input type="text" class="form-control" name="location" id="location" value="{{restaurant.location}}"
-        placeholder="請輸入餐廳地址" required>
+      <input type="text" class="form-control" name="location" id="location" value="{{location}}" placeholder="請輸入餐廳地址"
+        required>
       <div class="invalid-feedback">
         請輸入正確格式的地址
       </div>
     </div>
     <div class="col-md-4">
       <label for="phone" class="form-label">電話：</label>
-      <input type="tel" class="form-control" name="phone" id="phone" value="{{restaurant.phone}}" placeholder="請輸入餐廳電話"
+      <input type="tel" class="form-control" name="phone" id="phone" value="{{phone}}" placeholder="請輸入餐廳電話"
         inputmode="tel" required>
       <div class="invalid-feedback">
         請輸入正確的電話格式
@@ -59,7 +57,7 @@
     <div class="col-md-4">
       <label for="google_map" class="form-label">Google 地圖連結</label>
       <input type="url" class="form-control" placeholder="請輸入 Google 地圖連結" name="google_map" id="google_map"
-        value="{{restaurant.google_map}}" required>
+        value="{{google_map}}" required>
       <div class="invalid-feedback">
         請輸入正確的 Google 地圖連結
       </div>
@@ -67,7 +65,7 @@
     <div class="col-md-12">
       <label for="description" class="form-label">餐廳介紹：</label>
       <textarea class="form-control" name="description" id="description" placeholder="請輸入關於這家餐廳的介紹" value=""
-        required>{{restaurant.description}}</textarea>
+        required>{{description}}</textarea>
       <div class="invalid-feedback">
         請輸入介紹內容
       </div>
