@@ -59,11 +59,8 @@ restaurantHandler.getAll = async (req, res, next) => {
     const preKeyword = req.query.keyword ? req.query.keyword.trim() : ''; // 處理只輸入空白字元
     const keyword = preKeyword.toLowerCase() || ''; // ESlint: no-unneeded-ternary
 
-    console.log(req.query);
-
     // 取得排序條件
     const sortOption = req.query.sort;
-    console.log('sort', sortOption);
     let sortCondition = [];
     switch (sortOption) {
       case 'name_asc':
@@ -159,6 +156,7 @@ restaurantHandler.getById = async (req, res, next) => {
       next(error);
       return;
     }
+    req.restaurant = restaurant;
     next();
   } catch (error) {
     next(error);
