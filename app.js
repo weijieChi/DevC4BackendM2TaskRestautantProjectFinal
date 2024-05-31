@@ -16,15 +16,31 @@ const { engine } = require('express-handlebars');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const passport = require('passport');
 
-app.engine('.hbs', engine({ extname: '.hbs' }));
-app.set('view engine', '.hbs');
-app.set('views', './views');
-
 // method-override
 const methodOverrid = require('method-override');
 
 // dotenv
 const dotenv = require('dotenv');
+
+// const exphbs = require('express-handlebars');
+
+// exphbs.create({
+//   // eslint-disable-next-line global-require
+//   helpers: require('./config/handlebars-helpers'),
+//   defaultLayout: 'main',
+//   extname: '.hbs',
+// });
+const helpers = require('./config/handlebars-helpers');
+
+// 載入自定義 helpers 的檔案
+// eslint-disable-next-line import/order
+const handlebars = require('handlebars');
+
+handlebars.registerHelper(helpers);
+
+app.engine('.hbs', engine({ extname: '.hbs' }));
+app.set('view engine', '.hbs');
+app.set('views', './views');
 
 // middleware
 // middlewares message-handler

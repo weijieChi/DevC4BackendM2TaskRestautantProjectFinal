@@ -15,20 +15,19 @@
     </div>
     <div class="col-md-4">
       <label for="category" class="form-label">餐廳類型：</label>
-      <select class="form-select" id="category" name="category" required>
-        <option selected disabled value="">請選擇餐廳類型</option>
+      <input class="form-control" list="category-choice" id="category" name="category" value="{{restaurant.category}}"
+        placeholder="請選擇或是輸入餐廳類型" required />
+      <datalist id="category-choice">
         <option value="美式">美式</option>
         <option value="日本料理">日本料理</option>
         <option value="義式餐廳">義式餐廳</option>
         <option value="法式">法式</option>
         <option value="德式">德式</option>
-        <option value="其他歐式">其他歐式</option>
         <option value="中東料理">中東料理</option>
         <option value="東南亞">東南亞</option>
         <option value="酒吧">酒吧</option>
         <option value="咖啡">咖啡</option>
-        <option value="其他">其他</option>
-      </select>
+      </datalist>
       <div class="invalid-feedback">
         請選擇餐廳類型
       </div>
@@ -81,5 +80,4 @@
 </div>
 <script src="/javascripts/new.js"></script>
 <script>
-  document.querySelector('#category').value = '{{restaurant.category}}';
 </script>

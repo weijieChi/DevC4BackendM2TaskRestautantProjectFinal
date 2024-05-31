@@ -1,108 +1,45 @@
 // 引用 Express 與 Express 路由器
 const express = require('express');
 
-const router = express.Router();
-
-// JSON schema 用於驗證 json 轉成的 object 格式是否符合規格
-const Validator = require('jsonschema');
-
-const jsonValidator = new Validator.Validator();
-const restaurantSchena = {
-  title: '餐廳基本資料',
-  description: '用於驗證要傳入資料庫 javascript object 資料結構是否符合規範',
-  type: 'objct',
-  properties: {
-    name: {
-      description: 'restaurant name',
-      type: 'string',
-      minLength: 1, // 用於驗證是否為空字串
-    },
-    category: {
-      type: 'string',
-      minLength: 1,
-    },
-    image: {
-      type: 'string',
-      minLength: 1,
-    },
-    location: {
-      type: 'string',
-      minLength: 1,
-    },
-    google_map: {
-      type: 'string',
-      minLength: 1,
-    },
-    description: {
-      type: 'string',
-      minLength: 1,
-    },
-  },
-  require: ['name', 'category', 'image', 'location', 'google_map', 'description'],
-};
-
 // database
 const db = require('../../models');
 
 const { Restaurant } = db;
 
+const router = express.Router();
+
+const restaurantHandler = require('../../middlewares/restaurant-handler');
+
 router.get('/new', (req, res) => {
   res.render('new');
 });
 
-router.post('/', (req, res, next) => {
-  let restaurantData = {};
+router.post('/', restaurantHandler.create);
 
-  // 驗證是否為有效 json 資料
+router.get('/', restaurantHandler.getAll, async (req, res, next) => {
   try {
-    restaurantData = (req.body); // 包含使用 app.use(express.json())
+    const restaurants = req.filterRestaurants;
+    const { maxPage } = req; // eslint: prefer-destructuring
+    const { sortOption } = req || 'none'; // 不知道如何在 express-handlebars 如何判斷空值
+    const { currentPage } = req;
+    const { keyword } = req;
+    const previousPage = currentPage === 1 ? 1 : currentPage - 1;
+    const nextPage = currentPage === maxPage ? maxPage : currentPage + 1;
+
+    res.render('restaurants', {
+      restaurants,
+      maxPage,
+      sortOption,
+      currentPage,
+      previousPage,
+      nextPage,
+      keyword,
+    });
   } catch (error) {
-    // res.status(400); // 不知道要怎麼把 http code 設為 400
-    error.errorMessage = 'Invalid request data.';
-    next(error);
-    return; // 防止進入資料庫 insert 程序
+    const err = error;
+    err.errorMessage = '資料庫查詢錯誤';
+    next(err);
   }
-
-  // JSON schema 驗證 javascript object 格式
-  const result = jsonValidator.validate(restaurantData, restaurantSchena);
-  if (!result.valid) {
-    const error = { errorMessage: 'The JSON data schema or value is does not match rule.' };
-    next(error);
-    return; // 防止進入資料庫 insert 程序
-  }
-
-  //
-  const userId = req.user.id;
-  restaurantData.userId = userId;
-
-  Restaurant.create(restaurantData)
-    .then(() => {
-      req.flash('success', '新增成功');
-      return res.redirect('restaurants');
-    })
-    .catch((error) => {
-      const err = error;
-      err.errorMessage = '新增失敗！';
-      next(err);
-    });
-});
-
-router.get('/', (req, res, next) => {
-  const userId = req.user.id;
-  Restaurant.findAll({
-    attributes: ['id', 'name', 'category', 'image'],
-    where: { userId },
-    raw: true,
-  })
-    .then((restaurants) => {
-      res.render('restaurants', { restaurants });
-    })
-    .catch((error) => {
-      const err = error;
-      err.error_msg = '資料取得失敗';
-      // res.status(500); // 不知道要怎麼把 http code 設為 500
-      next(error);
-    });
 });
 
 router.get('/:id', (req, res, next) => {
@@ -163,12 +100,12 @@ router.put('/:id', (req, res, next) => {
     return; // 防止進入資料庫 update 程序
   }
   // 驗勝資料結構
-  const result = jsonValidator.validate(data, restaurantSchena);
-  if (!result.valid) {
-    const error = { errorMessage: 'The JSON data schema or value is does not match.' };
-    next(error);
-    return; // 防止進入資料庫 update 程序
-  }
+  // const result = jsonValidator.validate(data, restaurantSchena);
+  // if (!result.valid) {
+  //   const error = { errorMessage: 'The JSON data schema or value is does not match.' };
+  //   next(error);
+  //   return; // 防止進入資料庫 update 程序
+  // }
 
   Restaurant.update(data, { where: { id } })
     .then(() => {
