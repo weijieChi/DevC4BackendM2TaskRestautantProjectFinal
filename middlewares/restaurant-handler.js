@@ -95,7 +95,6 @@ restaurantHandler.getAll = async (req, res, next) => {
             sequelize.where(sequelize.fn('LOWER', sequelize.col('location')), { [Op.like]: `%${keyword}%` }),
             sequelize.where(sequelize.fn('LOWER', sequelize.col('phone')), { [Op.like]: `%${keyword}%` }),
             sequelize.where(sequelize.fn('LOWER', sequelize.col('description')), { [Op.like]: `%${keyword}%` }),
-            // { name: { [Op.like]: `%${keyword}%` } }, // 原本的寫法
           ],
         }, { userId },
       ],
@@ -110,20 +109,13 @@ restaurantHandler.getAll = async (req, res, next) => {
       limit,
       raw: true,
     });
-    // 計算餐廳資料最大頁數
-    let restaurantsCount = 0;
 
-    if (keyword) {
-      restaurantsCount = await Restaurant.count({ where: searchCondition });
-    } else {
-      restaurantsCount = await Restaurant.count({ where: userId });
-    }
+    // 計算資料數輛
+    const restaurantsCount = await Restaurant.count({ where: searchCondition });
+
+    // 計算餐廳資料最大頁數
     const maxPage = Math.ceil(restaurantsCount / limit);
-    // 若指定頁數超過最大頁數則重新導向
-    if (currentPage > maxPage) {
-      return res.redirect(`/restaurants?search=${keyword}&sort=${sortOption}&page=${maxPage}`);
-      // 回傳結果
-    }
+
     req.filterRestaurants = filterRestaurants;
     req.maxPage = maxPage;
     req.sortOption = sortOption;

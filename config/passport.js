@@ -22,7 +22,7 @@ passport.use(new LocalStrategy({ usernameField: 'email' }, (username, password, 
   })
     .then((user) => { // 檢查是否存在該帳號
       if (!user) {
-        return done(null, false, { message: 'email email 或是密碼錯誤' });
+        return done(null, false, { message: 'email 或是密碼錯誤' });
       }
       // 檢查密碼是否正確
       return bcrypt.compare(password, user.password)

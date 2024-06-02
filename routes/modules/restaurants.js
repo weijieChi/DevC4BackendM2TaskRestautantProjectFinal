@@ -1,11 +1,6 @@
 // 引用 Express 與 Express 路由器
 const express = require('express');
 
-// database
-// const db = require('../../models');
-
-// const { Restaurant } = db;
-
 const router = express.Router();
 
 const restaurantHandler = require('../../middlewares/restaurant-handler');
@@ -25,6 +20,19 @@ router.get('/', restaurantHandler.getAll, (req, res, next) => {
     const { keyword } = req;
     const previousPage = currentPage === 1 ? 1 : currentPage - 1;
     const nextPage = currentPage === maxPage ? maxPage : currentPage + 1;
+
+    // 以下為測試用
+
+    const myObject = {
+      restaurants,
+      maxPage,
+      sortOption,
+      currentPage,
+      previousPage,
+      nextPage,
+      keyword,
+    };
+    console.log('myObject:', myObject);
 
     res.render('restaurants', {
       restaurants,

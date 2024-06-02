@@ -58,13 +58,13 @@
         <nav class="d-flex justify-content-center">
           <ul class="pagination">
             <li class="page-item">
-              <a class="page-link" href="/restaurants?">
+              <a class="page-link" href="/restaurants?page={{ previousPage }}&keyword={{keyword}}">
                 <span aria-hidden="true">&laquo; 上一頁</span>
               </a>
             </li>
             <li class="page-item"><span class="page-link">第 {{ currentPage }} 頁</span></li>
             <li>
-              <a class="page-link" href="#" aria-label="Next">
+              <a class="page-link" href="/restaurants?page={{ nextPage }}&keyword={{keyword}}" aria-label="Next">
                 <span aria-hidden="true">下一頁 &raquo;</span>
               </a>
             </li>
