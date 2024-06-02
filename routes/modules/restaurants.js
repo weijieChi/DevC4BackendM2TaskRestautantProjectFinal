@@ -2,9 +2,9 @@
 const express = require('express');
 
 // database
-const db = require('../../models');
+// const db = require('../../models');
 
-const { Restaurant } = db;
+// const { Restaurant } = db;
 
 const router = express.Router();
 
@@ -62,49 +62,8 @@ router.get('/:id/edit', restaurantHandler.getEdit, (req, res, next) => {
   }
 });
 
-router.put('/:id', (req, res, next) => {
-  const { id } = req.params;
-  // 驗證是否為有效 JSON 資料
-  let data = {};
-  try {
-    data = req.body;
-  } catch (error) {
-    error.errorMessage = 'Invalid request data';
-    next(error);
-    return; // 防止進入資料庫 update 程序
-  }
-  // JSON Schema 暫時先保留
-  // 驗勝資料結構
-  // const result = jsonValidator.validate(data, restaurantSchena);
-  // if (!result.valid) {
-  //   const error = { errorMessage: 'The JSON data schema or value is does not match.' };
-  //   next(error);
-  //   return; // 防止進入資料庫 update 程序
-  // }
+router.put('/:id', restaurantHandler.update);
 
-  Restaurant.update(data, { where: { id } })
-    .then(() => {
-      req.flash('success', '修改成功');
-      res.redirect(`./${id}`);
-    })
-    .catch((error) => {
-      const err = error;
-      err.errorMessage = '修改失敗！';
-      next(err);
-    });
-});
-
-router.delete('/:id', (req, res, next) => {
-  const { id } = req.params;
-  Restaurant.destroy({ where: { id } })
-    .then(() => {
-      res.redirect('./');
-    })
-    .catch((error) => {
-      const err = error;
-      err.errorMessage = '刪除失敗！';
-      next(err);
-    });
-});
+router.delete('/:id', restaurantHandler.delete);
 
 module.exports = router;

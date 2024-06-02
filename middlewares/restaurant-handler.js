@@ -205,7 +205,7 @@ restaurantHandler.create = async (req, res, next) => {
     console.log(restaurant);
     await Restaurant.create(restaurant);
     req.flash('success', '新增成功');
-    return res.redirect('restaurants');
+    return res.redirect('/restaurants');
   } catch (error) {
     const err = error;
     err.errorMessage = '新增失敗！';
@@ -214,19 +214,31 @@ restaurantHandler.create = async (req, res, next) => {
 };
 restaurantHandler.update = async (req, res, next) => {
   try {
-    const { restaurant } = req.body;
+    const { id } = req.params;
     const userId = req.user.id;
-    restaurant.userId = userId;
+    const edit = req.body;
 
-    const result = jsonValidator.validate(restaurant, restaurantSchena);
-    if (!result.valid) {
-      const error = { errorMessage: 'The JSON data schema or value is does not match rule.' };
-      next(error);
-      return; // 防止進入資料庫 insert 程序
+    // 取得資料並驗證使用者
+    const restaurant = await Restaurant.findByPk(id, {
+      where: id,
+      attribuets: ['id', 'userId'],
+      raw: true,
+    });
+    if (!restaurant) {
+      req.flash('error', '找不到資料');
+      return res.redirect('/restaurants');
     }
-    await Restaurant.create(restaurant);
+
+    if (userId !== restaurant.userId) {
+      req.flash('error', '無權限編輯此資料');
+      return res.redirect('/restaurants');
+    }
+
+    await Restaurant.update(edit, {
+      where: { id },
+    });
     req.flash('success', '更新成功');
-    return res.redirect('restaurants');
+    return res.redirect('/restaurants');
   } catch (error) {
     const err = error;
     err.errorMessage = '更新失敗！';
@@ -234,18 +246,26 @@ restaurantHandler.update = async (req, res, next) => {
   }
 };
 
-restaurantHandler.delet = async (req, res, next) => {
+restaurantHandler.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
     const userId = req.user.id;
-    // 先取得資料使用者 id
-    const restaurant = await Restaurant.findByPk(id, ['id', 'userId']);
-    if (userId !== restaurant.userId) {
-      req.flash('error', '無權限刪除資料');
-      res.redirect('restaurants');
-      return;
+    // 先取得資料並驗證資料使用者
+    const restaurant = await Restaurant.findByPk(id, {
+      attributes: ['id', 'userId'],
+      raw: true,
+    });
+    if (!restaurant) {
+      req.flash('error', '找不到資料');
+      return res.redirect('/restaurants');
     }
-    await Restaurant.destory({ wehere: { id } });
+    if (userId !== restaurant.userId) {
+      req.flash('error', '無權限刪除此資料');
+      return res.redirect('/restaurants');
+    }
+    await Restaurant.destroy({ where: { id } });
+    req.flash('success', '刪除成功');
+    return res.redirect('/restaurants');
   } catch (error) {
     const err = error;
     err.errorMessage = '刪除失敗！';
