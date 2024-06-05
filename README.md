@@ -1,5 +1,4 @@
 因為原本我就已經有 MySQL 練習環境，所以在 config/config.json 的 password 是 `root` ，助教在批改時候再看要不再改成 `password`
-因為題目沒有要求搜尋功能，所以我先 disable 搜尋的功能
 
 # 餐廳收藏資網站料庫 CRUD 操作作業
 在伺服器啟動期間使用者在瀏覽器輸入 http://localhost:3000/ 會開啟網站頁面
@@ -67,14 +66,23 @@ export NODE_ENV=development
 # 查看環境變數是否設定正確
 printenv NODE_ENV
 ```
+8. 在 `/` 目錄建立 `.env` 檔案，其環境變數要依據您的環境自行設定，可在 `.env.example` 找到參考內容
+其內容包含 SESSION_SECRET 加密字串和 facebook OAuth2 參數等等
 
-8. 透過 npm 執行伺服器程式。
+```txt
+SESSION_SECRET='canUseAnyStringforSeesionSecret'
+FACEBOOK_CLIENT_ID='yourFacebookClientId'
+FACEBOOK_CLIENT_SECRET='yourFacebookClientSecretKey'
+FACEBOOK_CALLBACK_URL='http://localhost:3000/oauth2/redirect/facebook'
+```
+
+9. 透過 npm 執行伺服器程式。
 ```sh
 npm run start
 ```
-9. 在瀏覽器網址列輸入 `http://localhost:3000/` 就可以打開網頁了
+10. 在瀏覽器網址列輸入 `http://localhost:3000/` 就可以打開網頁了
 
-10. 最後要關閉伺服器就在 terminal 案 `ctrl` + `C` 再按 `y` + `enter` 關閉 nodejs 伺服器。
+11. 最後要關閉伺服器就在 terminal 案 `ctrl` + `C` 再按 `y` + `enter` 關閉 nodejs 伺服器。
 
 ---
 

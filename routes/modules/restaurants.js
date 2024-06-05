@@ -19,7 +19,7 @@ router.get('/', restaurantHandler.getAll, (req, res, next) => {
     const { currentPage } = req;
     const { keyword } = req;
     const previousPage = currentPage === 1 ? 1 : currentPage - 1;
-    const nextPage = currentPage === maxPage ? maxPage : currentPage + 1;
+    const nextPage = currentPage > maxPage ? maxPage : currentPage + 1;
 
     // 以下為測試用
 

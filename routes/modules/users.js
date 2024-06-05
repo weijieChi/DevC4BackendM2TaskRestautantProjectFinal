@@ -6,9 +6,6 @@ const router = express.Router();
 // bcrypt
 const bcrypt = require('bcryptjs');
 
-// passport
-// const passport = require('../config/passport');
-
 // Sequelize Database
 const db = require('../../models');
 
@@ -18,7 +15,6 @@ router.post('/', (req, res, next) => {
   const {
     email, name, password, confirmPassword,
   } = req.body;
-
   if (!email || !password) {
     req.flash('error', 'email 及 password 為必填');
     return res.redirect('back');
@@ -43,7 +39,7 @@ router.post('/', (req, res, next) => {
         .then((hash) => {
           User.create({
             email,
-            name,
+            name: name || null,
             password: hash,
           })
             .catch((error) => {
@@ -57,11 +53,12 @@ router.post('/', (req, res, next) => {
     })
     .catch((error) => {
       const err = error;
-      err.errorMessage = '伺服器錯誤';
+      err.errorMessage = '註冊伺服器錯誤';
       next(err);
     });
 });
 
+// 原本想要實作的使用者資料刪除功能
 // router.delete('/login', passport.authenticate('local', {
 //   successRedirect: '/restaurants',
 //   failureRedirect: '/login',
