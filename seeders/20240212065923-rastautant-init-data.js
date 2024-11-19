@@ -80,7 +80,7 @@ module.exports = {
       await queryInterface.bulkInsert('Restaurants', restaurants, { transaction });
       transaction.commit();
     } catch (error) {
-      console.log('sedder transacrion error: ');
+      console.log('seeder transaction error: ');
       console.log(error);
       if (transaction) await transaction.rollback();
     }
